@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, watch } from 'vue'
+import { ref, nextTick, watch, onMounted } from 'vue'
 import request from '@/api/index.js'
 import { aiStore } from '@/stores/ai.js'
 
@@ -52,6 +52,9 @@ const scrollBottom = () => {
 // 每次有新消息自动滚到底
 watch(() => aiStore.messages.length, () => scrollBottom())
 
+// 页面挂载时也滚到底（切换页面回来时）
+onMounted(() => scrollBottom())
+
 const sendMessage = async () => {
   if (!inputText.value.trim() || loading.value) return
   const text = inputText.value
@@ -61,7 +64,7 @@ const sendMessage = async () => {
 
   try {
     // 把完整对话历史发给后端
-    const res = await request.post('/ai/chat', { messages: aiStore.messages })
+    const res = await request.post('/agent/chat', { messages: aiStore.messages })
     aiStore.messages.push({ role: 'assistant', content: res.content })
   } catch {
     aiStore.messages.push({ role: 'assistant', content: 'AI 服务暂时不可用，请稍后再试。' })

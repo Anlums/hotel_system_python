@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from app.api.v1 import rooms, bookings, ai, cleaning, room_service, pricing, assign, members, payments
+from app.api.v1 import rooms, bookings, ai, cleaning, room_service, pricing, assign, members, payments, agent
 from app.db.database import engine, Base
 
 
@@ -23,6 +23,7 @@ app.include_router(pricing.router)
 app.include_router(assign.router)
 app.include_router(members.router)
 app.include_router(payments.router)
+app.include_router(agent.router)
 
 
 @app.get("/")

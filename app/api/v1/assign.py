@@ -12,12 +12,17 @@ async def recommend(
     preferences: str = Query("", description="偏好要求，如: 安静、高层、商务"),
     db: AsyncSession = Depends(get_db),
 ):
-    """AI 根据客人需求推荐最优房间"""
+    """AI 根据客人需求推荐最优房间（Agent 版）"""
     try:
-        result = await assign_service.recommend_rooms(db, guest_count, preferences)
+        result = await assign_service.recommend_rooms_via_agent(db, guest_count, preferences)
         return {"code": 200, "data": result}
     except Exception as e:
-        return {"code": 500, "msg": f"推荐失败: {str(e)}"}
+        # Agent 失败时回退到旧版
+        try:
+            result = await assign_service.recommend_rooms(db, guest_count, preferences)
+            return {"code": 200, "data": result}
+        except Exception as e2:
+            return {"code": 500, "msg": f"推荐失败: {str(e2)}"}
 
 
 @router.post("/book")

@@ -1,8 +1,11 @@
 import json, re
 from sqlalchemy.ext.asyncio import AsyncSession
+from langchain_core.messages import HumanMessage
 from app.crud import crud_room, crud_booking
 from app.service.ai_service import chat
 from app.model.booking import Booking
+from app.agent.tools import create_hotel_tools
+from app.agent.agent import create_hotel_agent, RECOMMEND_SYSTEM_PROMPT
 
 
 async def recommend_rooms(
@@ -83,6 +86,35 @@ async def recommend_rooms(
             raise ValueError(f"AI 返回格式异常: {content[:200]}")
 
     return result
+
+
+async def recommend_rooms_via_agent(
+    db: AsyncSession,
+    guest_count: int = 1,
+    preferences: str = "",
+) -> dict:
+    """用 LangChain Agent 根据客人需求推荐最优房间（替代旧版 recommend_rooms）"""
+    tools = create_hotel_tools(db)
+    agent = create_hotel_agent(tools, system_prompt=RECOMMEND_SYSTEM_PROMPT)
+
+    prompt = f"客人需求：{guest_count}人，偏好：{preferences or '无特殊要求'}"
+    result = await agent.ainvoke({"messages": [HumanMessage(content=prompt)]})
+
+    content = result["messages"][-1].content
+
+    # 从 Agent 回复中提取 JSON
+    try:
+        text = content.strip()
+        if text.startswith("```"):
+            text = text.split("\n", 1)[1]
+            text = text.rsplit("```", 1)[0]
+        result_data = json.loads(text.strip())
+        return result_data
+    except json.JSONDecodeError:
+        match = re.search(r"\{.*\}", content, re.DOTALL)
+        if match:
+            return json.loads(match.group())
+        raise ValueError(f"Agent 返回格式异常: {content[:200]}")
 
 
 async def quick_book(

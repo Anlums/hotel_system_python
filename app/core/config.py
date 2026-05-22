@@ -50,7 +50,7 @@ class Settings(BaseSettings):
 
     # DeepSeek AI
     DEEPSEEK_API_KEY: str = ""
-    DEEPSEEK_MODEL: str = "deepseek-v4-flash"
+    DEEPSEEK_MODEL: str = "deepseek-chat"
     DEEPSEEK_BASE_URL: str = "https://api.deepseek.com/chat/completions"
 
     # test
