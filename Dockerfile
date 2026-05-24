@@ -6,7 +6,15 @@
 # ---- 构建阶段 ----
 FROM python:3.12-slim AS builder
 
+
 WORKDIR /build
+
+# 1. 替换 apt 源为阿里云镜像（国内服务器加速）
+RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list.d/debian.sources || \
+    sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
+
+# 2. pip 换成清华镜像源
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 安装编译依赖（仅构建时需要）
 RUN apt-get update && \
@@ -15,7 +23,7 @@ RUN apt-get update && \
 
 # 复制依赖文件并安装到临时目录
 COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # ---- 生产阶段 ----
 FROM python:3.12-slim
@@ -26,8 +34,10 @@ RUN groupadd -r hotel && useradd -r -g hotel -d /app -s /bin/false hotel
 WORKDIR /app
 
 # 从构建阶段复制已安装的依赖
-COPY --from=builder /root/.local /root/.local
-ENV PATH=/root/.local/bin:$PATH
+COPY --from=builder /usr/local /usr/local
+
+# 设置 PATH（确保 uvicorn 等命令可用）
+ENV PATH=/usr/local/bin:$PATH
 
 # 复制应用代码
 COPY . .
