@@ -35,3 +35,5 @@ Thumbs.db
 ai_test_result.txt
 test_main.http
 目录
+full_data.sql
+export_db.py
