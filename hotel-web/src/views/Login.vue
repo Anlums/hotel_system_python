@@ -87,12 +87,13 @@ const handleLogin = async () => {
 .login-header h2 {
   margin: 0 0 8px;
   font-size: 22px;
-  color: #303133;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 .login-subtitle {
   margin: 0;
   font-size: 14px;
-  color: #909399;
+  color: rgba(255, 255, 255, 0.65);
 }
 
 /* 输入框 50% 透明 */
@@ -103,6 +104,10 @@ const handleLogin = async () => {
 }
 :deep(.el-input__inner) {
   background: transparent !important;
+  color: #333 !important;
+}
+:deep(.el-input__inner::placeholder) {
+  color: rgba(0, 0, 0, 0.35) !important;
 }
 
 /* 登录按钮 50% 透明 */
