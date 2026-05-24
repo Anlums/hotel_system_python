@@ -94,4 +94,24 @@ const handleLogin = async () => {
   font-size: 14px;
   color: #909399;
 }
+
+/* 输入框 50% 透明 */
+:deep(.el-input__wrapper) {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+:deep(.el-input__inner) {
+  background: transparent !important;
+}
+
+/* 登录按钮 50% 透明 */
+:deep(.el-button--primary) {
+  background: rgba(64, 158, 255, 0.5) !important;
+  border-color: rgba(64, 158, 255, 0.5) !important;
+}
+:deep(.el-button--primary:hover) {
+  background: rgba(64, 158, 255, 0.7) !important;
+  border-color: rgba(64, 158, 255, 0.7) !important;
+}
 </style>
