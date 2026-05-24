@@ -1,0 +1,52 @@
+# ============================================================
+# .dockerignore - 优化构建速度，减少镜像体积
+# ============================================================
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 环境文件（生产环境通过 docker-compose 注入）
+.env
+.env.local
+
+# 前端
+hotel-web/node_modules/
+hotel-web/dist/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# 日志
+*.log
+
+# 测试和文档
+test/
+tests/
+README*.md
+ai_test_result.txt
+test_main.http
+目录
+
+# Docker
+.dockerignore
+docker-compose*.yml
+deploy/nginx.conf
+deploy/init.sql
+deploy/.env.example
