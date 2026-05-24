@@ -68,7 +68,7 @@ const handleLogin = async () => {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  background: url('@/assets/bg.png') center/cover no-repeat;
 }
 .login-card {
   width: 400px;
