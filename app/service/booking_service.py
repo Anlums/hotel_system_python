@@ -60,13 +60,15 @@ async def place_order(db: AsyncSession, room_number: int, guest_name: str,
 
 
 async def check_in(db: AsyncSession, booking_id: int) -> None:
-    """办理入住: 状态 1→2"""
+    """办理入住: 订单状态 1→2, 房间状态 1→2"""
     booking = await crud_booking.get_by_id(db, booking_id)
     if not booking:
         raise ValueError(f"订单 id={booking_id} 不存在")
     if booking.status != 1:
         raise ValueError("只有已预约的订单才能办理入住")
     booking.status = 2
+    # 房间状态改为 2-已入住
+    await crud_room.update_status(db, booking.room_number, 2)
 
 
 async def check_out(db: AsyncSession, booking_id: int) -> None:
