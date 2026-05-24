@@ -73,9 +73,10 @@ const handleLogin = async () => {
 .login-card {
   width: 400px;
   padding: 40px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
 }
 .login-header {
   text-align: center;
