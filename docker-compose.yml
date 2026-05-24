@@ -27,6 +27,8 @@ volumes:
     driver: local
   nginx-logs:
     driver: local
+  frontend-dist:
+    driver: local
 
 # ---- 服务定义 ----
 services:
@@ -100,6 +102,19 @@ services:
         reservations:
           memory: 128M
 
+  # ========== 前端构建（一次性，非长期运行） ==========
+  # 使用方式：docker compose run --rm frontend-builder
+  frontend-builder:
+    image: node:20-alpine
+    container_name: hotel-frontend-builder
+    working_dir: /app
+    volumes:
+      - ./hotel-web:/app
+      - frontend-dist:/app/dist   # 写入共享 volume
+    command: sh -c "npm ci && npm run build"
+    profiles:
+      - build    # 仅在指定 profile 时启动
+
   # ========== Nginx 前端 + 反向代理 ==========
   frontend:
     image: nginx:alpine
@@ -113,8 +128,8 @@ services:
     ports:
       - "80:80"           # 对外暴露 HTTP 端口
     volumes:
-      # 前端静态文件
-      - ./hotel-web/dist:/usr/share/nginx/html:ro
+      # 前端静态文件（从构建 volume 读取）
+      - frontend-dist:/usr/share/nginx/html:ro
       # Nginx 配置
       - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       # 日志
