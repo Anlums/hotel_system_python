@@ -140,10 +140,6 @@ CREATE TABLE IF NOT EXISTS users (
     UNIQUE KEY uk_username (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
 
--- 默认管理员密码 admin123（bcrypt 哈希）
-INSERT IGNORE INTO users (username, password_hash, role)
-VALUES ('admin', '$2b$12$LJ3m4ys3Lk0TSwHnbfOMiOXPm1Qlq5Kz8jYqG0Z2z3Yx7B5v5yK2S', 'admin');
-
 -- ==================== 示例数据（房间） ====================
 INSERT IGNORE INTO rooms (room_number, type, price, status) VALUES
 -- 标准间
