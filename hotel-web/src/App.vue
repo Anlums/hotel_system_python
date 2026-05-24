@@ -1,8 +1,12 @@
 <template>
-  <div class="app-container">
+  <Login v-if="!isLoggedIn" @login-success="isLoggedIn = true" />
+  <div v-else class="app-container">
     <!-- 侧边栏 -->
     <div class="sidebar">
-      <div class="sidebar-header">🏨 天玺尊邸</div>
+      <div class="sidebar-header">
+        <span>🏨 天玺尊邸</span>
+        <el-button size="small" text style="color: #fff" @click="handleLogout">退出</el-button>
+      </div>
       <div class="sidebar-menu">
         <div class="menu-item" :class="{ active: currentView === 'dashboard' }"
              @click="currentView = 'dashboard'">
@@ -64,7 +68,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { ElMessageBox } from 'element-plus'
+import Login from './views/Login.vue'
 import Dashboard from './views/Dashboard.vue'
 import RoomManager from './views/RoomManager.vue'
 import BookingManager from './views/BookingManager.vue'
@@ -77,4 +83,58 @@ import PaymentManager from './views/PaymentManager.vue'
 import AiChat from './views/AiChat.vue'
 
 const currentView = ref('dashboard')
+
+// 检查登录状态
+const isLoggedIn = ref(!!localStorage.getItem('token'))
+
+const handleLogout = async () => {
+  try {
+    await ElMessageBox.confirm('确定要退出登录吗？', '提示')
+  } catch {
+    return
+  }
+  localStorage.removeItem('token')
+  localStorage.removeItem('username')
+  isLoggedIn.value = false
+}
 </script>
+
+<!-- 原有的样式保持不变 -->
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #app { height: 100%; width: 100%; font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+.app-container { display: flex; height: 100vh; }
+
+.sidebar {
+  width: 200px;
+  background: #1a1a2e;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.sidebar-header {
+  padding: 20px 16px;
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.sidebar-menu { flex: 1; overflow-y: auto; padding: 8px 0; }
+.menu-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255,255,255,0.7);
+  transition: all 0.2s;
+  font-size: 14px;
+}
+.menu-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.menu-item.active { background: rgba(64,158,255,0.2); color: #409eff; border-right: 3px solid #409eff; }
+
+.main-content { flex: 1; overflow-y: auto; padding: 20px; background: #f5f7fa; }
+</style>

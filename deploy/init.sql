@@ -129,6 +129,21 @@ CREATE TABLE IF NOT EXISTS payments (
     INDEX idx_type (type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付';
 
+-- ==================== 9. 用户表 ====================
+CREATE TABLE IF NOT EXISTS users (
+    id            BIGINT       NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+    username      VARCHAR(50)  NOT NULL                COMMENT '用户名',
+    password_hash VARCHAR(200) NOT NULL                COMMENT '密码哈希',
+    role          VARCHAR(20)  DEFAULT 'admin'         COMMENT '角色: admin/superadmin',
+    created_at    DATETIME     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_username (username)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户';
+
+-- 默认管理员密码 admin123（bcrypt 哈希）
+INSERT IGNORE INTO users (username, password_hash, role)
+VALUES ('admin', '$2b$12$LJ3m4ys3Lk0TSwHnbfOMiOXPm1Qlq5Kz8jYqG0Z2z3Yx7B5v5yK2S', 'admin');
+
 -- ==================== 示例数据（房间） ====================
 INSERT IGNORE INTO rooms (room_number, type, price, status) VALUES
 -- 标准间
