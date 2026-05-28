@@ -66,7 +66,7 @@ def create_hotel_agent(tools: list[BaseTool], system_prompt: str = None):
     # 注意：必须用 replace/removesuffix，不能用 rstrip（rstrip 会按字符集剥离，吃掉 .com）
     base_url = settings.DEEPSEEK_BASE_URL.replace("/chat/completions", "").rstrip("/")
 
-    llm = ChatOpenAI(d
+    llm = ChatOpenAI(
         model=settings.DEEPSEEK_MODEL,
         api_key=settings.DEEPSEEK_API_KEY,
         base_url=base_url,

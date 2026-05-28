@@ -10,10 +10,10 @@
 
     <!-- 图例 -->
     <div class="legend-bar">
-      <span class="legend-item"><span class="gem" style="background:var(--emerald);box-shadow:0 0 6px rgba(46,125,50,0.5)"></span> 空闲</span>
-      <span class="legend-item"><span class="gem" style="background:var(--sapphire);box-shadow:0 0 6px rgba(21,101,192,0.5)"></span> 已预订</span>
+      <span class="legend-item"><span class="gem" style="background:#8AA78F;box-shadow:0 0 6px rgba(138,167,143,0.5)"></span> 空闲</span>
+      <span class="legend-item"><span class="gem" style="background:#8CA1B5;box-shadow:0 0 6px rgba(140,161,181,0.5)"></span> 已预订</span>
       <span class="legend-item"><span class="gem" style="background:var(--gold);box-shadow:0 0 6px rgba(212,175,55,0.5)"></span> 已入住</span>
-      <span class="legend-item"><span class="gem" style="background:var(--burgundy);box-shadow:0 0 6px rgba(139,26,26,0.5)"></span> 清洁中</span>
+      <span class="legend-item"><span class="gem" style="background:#BC6E6E;box-shadow:0 0 6px rgba(188,110,110,0.5)"></span> 清洁中</span>
       <span style="flex:1"></span>
       <span style="font-size:12px;color:var(--text-muted)">共 {{ filteredRooms.length }} 间</span>
     </div>
@@ -178,10 +178,10 @@ onMounted(fetchRooms)
   height: 4px;
   border-radius: 2px;
 }
-.status-0 .status-glow { background: var(--emerald); box-shadow: 0 0 8px rgba(46,125,50,0.6); }
-.status-1 .status-glow { background: var(--sapphire); box-shadow: 0 0 8px rgba(21,101,192,0.6); }
+.status-0 .status-glow { background: #8AA78F; box-shadow: 0 0 8px rgba(138,167,143,0.5); }
+.status-1 .status-glow { background: #8CA1B5; box-shadow: 0 0 8px rgba(140,161,181,0.5); }
 .status-2 .status-glow { background: var(--gold); box-shadow: 0 0 8px rgba(212,175,55,0.6); }
-.status-3 .status-glow { background: var(--burgundy); box-shadow: 0 0 8px rgba(139,26,26,0.6); }
+.status-3 .status-glow { background: #BC6E6E; box-shadow: 0 0 8px rgba(188,110,110,0.5); }
 
 .room-number { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-top: 4px; }
 .room-type { font-size: 12px; color: var(--text-muted); margin: 6px 0 2px; letter-spacing: 0.08em; }
@@ -190,20 +190,20 @@ onMounted(fetchRooms)
   display: inline-block; font-size: 10px; letter-spacing: 0.1em;
   padding: 2px 12px; border-radius: 10px; margin-top: 8px;
 }
-.status-0 .room-badge { background: rgba(46,125,50,0.15); color: #4CAF50; }
-.status-1 .room-badge { background: rgba(21,101,192,0.15); color: #42A5F5; }
-.status-2 .room-badge { background: rgba(212,175,55,0.15); color: var(--gold-light); }
-.status-3 .room-badge { background: rgba(139,26,26,0.15); color: #EF5350; }
+.status-0 .room-badge { background: rgba(138,167,143,0.12); color: #8AA78F; }
+.status-1 .room-badge { background: rgba(140,161,181,0.12); color: #8CA1B5; }
+.status-2 .room-badge { background: rgba(212,175,55,0.12); color: var(--gold-light); }
+.status-3 .room-badge { background: rgba(188,110,110,0.12); color: #BC6E6E; }
 
 /* 详情弹窗 */
 .detail-wrap { padding: 8px 0; }
 .detail-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
 .detail-room-number { font-size: 32px; font-weight: 700; color: var(--text-primary); }
 .detail-badge { font-size: 12px; padding: 4px 16px; border-radius: 12px; letter-spacing: 0.08em; }
-.detail-0 .detail-badge { background: rgba(46,125,50,0.15); color: #4CAF50; }
-.detail-1 .detail-badge { background: rgba(21,101,192,0.15); color: #42A5F5; }
-.detail-2 .detail-badge { background: rgba(212,175,55,0.15); color: var(--gold-light); }
-.detail-3 .detail-badge { background: rgba(139,26,26,0.15); color: #EF5350; }
+.detail-0 .detail-badge { background: rgba(138,167,143,0.12); color: #8AA78F; }
+.detail-1 .detail-badge { background: rgba(140,161,181,0.12); color: #8CA1B5; }
+.detail-2 .detail-badge { background: rgba(212,175,55,0.12); color: var(--gold-light); }
+.detail-3 .detail-badge { background: rgba(188,110,110,0.12); color: #BC6E6E; }
 .detail-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; }
 .detail-row:last-child { border-bottom: none; }
 .detail-row span:first-child { color: var(--text-muted); }

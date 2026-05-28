@@ -3,8 +3,6 @@
    深夜走进迪拜七星级酒店大堂的厚重与尊贵
    ========================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
-
 :root {
   /* 深邃曜石黑背景 */
   --bg-deep: #0B0C10;
@@ -46,7 +44,7 @@
 html, body, #app {
   height: 100%;
   width: 100%;
-  font-family: 'Cinzel', 'STSong', 'SimSun', serif;
+  font-family: 'STSong', 'SimSun', 'Noto Serif SC', serif;
   background: var(--bg-deep);
   color: var(--text-primary);
   letter-spacing: 0.08em;
@@ -230,11 +228,61 @@ html, body, #app {
   color: var(--gold) !important;
 }
 
-/* Tag 标签 */
-.el-tag--success { background: rgba(46, 125, 50, 0.2) !important; border-color: var(--emerald) !important; color: #4CAF50 !important; }
-.el-tag--warning { background: rgba(21, 101, 192, 0.2) !important; border-color: var(--sapphire) !important; color: #42A5F5 !important; }
-.el-tag--primary { background: rgba(212, 175, 55, 0.2) !important; border-color: var(--gold) !important; color: var(--gold-light) !important; }
-.el-tag--danger { background: rgba(139, 26, 26, 0.2) !important; border-color: var(--burgundy) !important; color: #EF5350 !important; }
+/* Tag 标签 - 水洗流光质感 */
+.el-tag {
+  border-radius: 6px !important;
+  border: 1px solid transparent !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.06em;
+  padding: 0 12px !important;
+}
+.el-tag--success { background: rgba(138, 167, 143, 0.1) !important; border-color: rgba(138, 167, 143, 0.2) !important; color: #8AA78F !important; }
+.el-tag--warning { background: rgba(140, 161, 181, 0.1) !important; border-color: rgba(140, 161, 181, 0.2) !important; color: #8CA1B5 !important; }
+.el-tag--primary { background: rgba(74, 98, 127, 0.12) !important; border-color: rgba(74, 98, 127, 0.25) !important; color: #A4B7D3 !important; }
+.el-tag--danger { background: rgba(188, 110, 110, 0.1) !important; border-color: rgba(188, 110, 110, 0.2) !important; color: #BC6E6E !important; }
+.el-tag--info { background: rgba(139, 26, 26, 0.08) !important; border-color: rgba(139, 26, 26, 0.15) !important; color: #8B5959 !important; }
+
+/* 表格按钮 - 日常低调，悬停亮起 */
+.el-button--small { letter-spacing: 0.06em; font-weight: 400 !important; }
+.el-button--small:not(.el-button--primary) {
+  background: transparent !important;
+  border: 1px solid rgba(160, 160, 160, 0.2) !important;
+  color: #A0A0A0 !important;
+}
+.el-button--small:not(.el-button--primary):hover {
+  border-color: rgba(212, 175, 55, 0.4) !important;
+  color: var(--gold-light) !important;
+}
+.el-button--small.el-button--success {
+  background: transparent !important;
+  border: 1px solid rgba(223, 196, 142, 0.2) !important;
+  color: #A0A0A0 !important;
+}
+.el-button--small.el-button--success:hover {
+  background: rgba(223, 196, 142, 0.08) !important;
+  border-color: rgba(223, 196, 142, 0.5) !important;
+  color: #DFC48E !important;
+}
+.el-button--small.el-button--danger {
+  background: transparent !important;
+  border: 1px solid rgba(160, 160, 160, 0.2) !important;
+  color: #A0A0A0 !important;
+}
+.el-button--small.el-button--danger:hover {
+  background: rgba(188, 110, 110, 0.08) !important;
+  border-color: rgba(188, 110, 110, 0.4) !important;
+  color: #BC6E6E !important;
+}
+.el-button--small.el-button--warning {
+  background: transparent !important;
+  border: 1px solid rgba(160, 160, 160, 0.2) !important;
+  color: #A0A0A0 !important;
+}
+.el-button--small.el-button--warning:hover {
+  background: rgba(223, 196, 142, 0.08) !important;
+  border-color: rgba(223, 196, 142, 0.5) !important;
+  color: #DFC48E !important;
+}
 
 /* 表格 */
 .el-table {
