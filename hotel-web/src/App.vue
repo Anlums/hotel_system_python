@@ -185,8 +185,9 @@ const handleLogout = async () => {
 .brand-sub { font-size: 13px; color: var(--text-secondary); }
 .top-right { display: flex; align-items: center; gap: 16px; }
 .top-time { font-size: 12px; color: var(--text-muted); }
-.top-logout { font-size: 13px; color: var(--text-muted); cursor: pointer; transition: var(--transition); }
-.top-logout:hover { color: var(--rose-text); }
+.top-user { font-size: 13px; color: var(--text-secondary); margin-right: 4px; }
+.top-logout { font-size: 12px; color: var(--text-muted); cursor: pointer; transition: var(--transition); padding: 2px 8px; border-radius: 4px; }
+.top-logout:hover { color: var(--rose-text); background: var(--muted-rose); }
 
 /* 内容区 */
 .content-scroll { flex: 1; overflow-y: auto; padding: 24px 28px; }
