@@ -1,17 +1,17 @@
 <template>
-  <div>
+  <div class="page-enter">
     <div class="page-header">
-      <h2 class="page-title">📋 订单管理</h2>
+      <h1 class="page-title">御旨编年 · 宫闱调度</h1>
       <el-button type="primary" @click="openAddDialog">+ 新增订单</el-button>
     </div>
 
     <!-- 搜索栏 -->
-    <el-card class="search-card" shadow="hover">
+    <div class="content-card" style="margin-bottom: 20px; padding: 16px 20px">
       <el-form :inline="true" :model="searchForm">
-        <el-form-item label="客人姓名">
+        <el-form-item label="客人">
           <el-input v-model="searchForm.guest_name" placeholder="模糊搜索" clearable />
         </el-form-item>
-        <el-form-item label="房间号">
+        <el-form-item label="房号">
           <el-input v-model="searchForm.room_number" placeholder="精确匹配" clearable />
         </el-form-item>
         <el-form-item label="状态">
@@ -27,10 +27,10 @@
           <el-button @click="resetSearch">重置</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
 
     <!-- 订单表格 -->
-    <el-table :data="bookings" border stripe style="width: 100%" class="booking-table">
+    <el-table :data="bookings" style="width: 100%" class="booking-table">
       <el-table-column prop="id" label="ID" width="60" />
       <el-table-column prop="room_number" label="房间号" width="80" />
       <el-table-column prop="guest_name" label="客人" min-width="80" />
@@ -379,9 +379,6 @@ onMounted(fetchBookings)
 
 <style scoped>
 .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.page-title { font-size: 22px; margin: 0; }
-.search-card { margin-bottom: 20px; }
-.booking-table { margin-top: 0; }
 .action-btns { display: flex; flex-wrap: nowrap; gap: 4px; }
 .settle-summary { padding: 0 10px; }
 .settle-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 15px; }
