@@ -73,12 +73,11 @@ const handleLogin = async () => {
 .login-card {
   width: 400px;
   padding: 40px;
-  background: rgba(11, 12, 16, 0.5);
-  backdrop-filter: blur(30px);
-  -webkit-backdrop-filter: blur(30px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-light);
   border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-card);
 }
 .login-header {
   text-align: center;
@@ -91,9 +90,8 @@ const handleLogin = async () => {
 .login-header h2 {
   margin: 0 0 8px;
   font-size: 22px;
-  color: var(--gold);
+  color: var(--text-primary);
   letter-spacing: 0.12em;
-  text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 .login-subtitle {
   margin: 0;
@@ -102,18 +100,11 @@ const handleLogin = async () => {
   letter-spacing: 0.08em;
 }
 
-/* 输入框 50% 透明 */
-:deep(.el-input__wrapper) {
-  background: rgba(255, 255, 255, 0.5) !important;
-  border: none !important;
-  box-shadow: none !important;
-}
 :deep(.el-input__inner) {
-  background: transparent !important;
-  color: #333 !important;
+  color: var(--text-primary) !important;
 }
 :deep(.el-input__inner::placeholder) {
-  color: rgba(0, 0, 0, 0.35) !important;
+  color: var(--text-muted) !important;
 }
 
 /* 登录按钮 50% 透明 */

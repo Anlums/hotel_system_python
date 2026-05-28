@@ -10,10 +10,10 @@
 
     <!-- 图例 -->
     <div class="legend-bar">
-      <span class="legend-item"><span class="gem" style="background:#8AA78F;box-shadow:0 0 6px rgba(138,167,143,0.5)"></span> 空闲</span>
-      <span class="legend-item"><span class="gem" style="background:#8CA1B5;box-shadow:0 0 6px rgba(140,161,181,0.5)"></span> 已预订</span>
-      <span class="legend-item"><span class="gem" style="background:var(--gold);box-shadow:0 0 6px rgba(212,175,55,0.5)"></span> 已入住</span>
-      <span class="legend-item"><span class="gem" style="background:#BC6E6E;box-shadow:0 0 6px rgba(188,110,110,0.5)"></span> 清洁中</span>
+      <span class="legend-item"><span class="gem" style="background:#D6E4D3"></span> 空闲</span>
+      <span class="legend-item"><span class="gem" style="background:#D2E0EC"></span> 已预订</span>
+      <span class="legend-item"><span class="gem" style="background:var(--gold)"></span> 已入住</span>
+      <span class="legend-item"><span class="gem" style="background:#F3E3CE"></span> 清洁中</span>
       <span style="flex:1"></span>
       <span style="font-size:12px;color:var(--text-muted)">共 {{ filteredRooms.length }} 间</span>
     </div>
@@ -136,10 +136,9 @@ onMounted(fetchRooms)
 .legend-bar {
   display: flex; align-items: center; gap: 20px;
   padding: 12px 20px;
-  background: rgba(26,27,38,0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-gold);
+  background: var(--bg-card);
   border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-card);
   margin-bottom: 20px;
 }
 .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); letter-spacing: 0.08em; }
@@ -152,9 +151,8 @@ onMounted(fetchRooms)
 }
 
 .room-card {
-  background: rgba(26,27,38,0.6);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-gold);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
   border-radius: var(--radius);
   padding: 18px 14px;
   text-align: center;
@@ -164,9 +162,8 @@ onMounted(fetchRooms)
   overflow: hidden;
 }
 .room-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-glow);
-  border-color: rgba(212,175,55,0.3);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
 }
 /* 顶部状态光晕 */
 .status-glow {
@@ -178,10 +175,10 @@ onMounted(fetchRooms)
   height: 4px;
   border-radius: 2px;
 }
-.status-0 .status-glow { background: #8AA78F; box-shadow: 0 0 8px rgba(138,167,143,0.5); }
-.status-1 .status-glow { background: #8CA1B5; box-shadow: 0 0 8px rgba(140,161,181,0.5); }
-.status-2 .status-glow { background: var(--gold); box-shadow: 0 0 8px rgba(212,175,55,0.6); }
-.status-3 .status-glow { background: #BC6E6E; box-shadow: 0 0 8px rgba(188,110,110,0.5); }
+.status-0 .status-glow { background: #D6E4D3; }
+.status-1 .status-glow { background: #D2E0EC; }
+.status-2 .status-glow { background: var(--gold); }
+.status-3 .status-glow { background: #F3E3CE; }
 
 .room-number { font-size: 24px; font-weight: 700; color: var(--text-primary); margin-top: 4px; }
 .room-type { font-size: 12px; color: var(--text-muted); margin: 6px 0 2px; letter-spacing: 0.08em; }
