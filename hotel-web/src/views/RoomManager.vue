@@ -8,24 +8,33 @@
       </div>
     </div>
 
-    <!-- 图例 -->
+    <!-- 图例 + 楼层筛选 -->
     <div class="legend-bar">
+      <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-secondary)">🏛️</span>
+      <span v-for="f in floors" :key="f" class="floor-tag" :class="{ active: currentFloor === f }" @click="currentFloor = f">{{ f }}</span>
+      <span style="flex:1"></span>
       <span class="legend-item"><span class="gem" style="background:#D6E4D3"></span> 空闲</span>
       <span class="legend-item"><span class="gem" style="background:#D2E0EC"></span> 已预订</span>
       <span class="legend-item"><span class="gem" style="background:var(--gold)"></span> 已入住</span>
       <span class="legend-item"><span class="gem" style="background:#F3E3CE"></span> 清洁中</span>
-      <span style="flex:1"></span>
-      <span style="font-size:12px;color:var(--text-muted)">共 {{ filteredRooms.length }} 间</span>
+      <span style="font-size:12px;color:var(--text-muted);margin-left:8px">{{ filteredRooms.length }} 间</span>
     </div>
 
     <!-- 房间网格 -->
-    <div class="room-grid">
+    <div class="room-grid stagger-enter">
       <div v-for="room in filteredRooms" :key="room.id" class="room-card" :class="'status-' + room.status" @click="openRoomDetail(room)">
-        <div class="status-glow breathe"></div>
+        <div class="status-glow" :class="{ breathe: room.status === 0 }"></div>
         <div class="room-number">{{ room.room_number }}</div>
         <div class="room-type">{{ room.type }}</div>
         <div class="room-price">¥{{ room.price }}</div>
         <div class="room-badge">{{ statusText(room.status) }}</div>
+        <!-- 悬停快捷操作 -->
+        <div class="room-hover-actions">
+          <span v-if="room.status === 0" class="ha-btn" @click.stop="quickBookFromCard(room)">预订</span>
+          <span class="ha-btn" @click.stop="openRoomDetail(room)">详情</span>
+        </div>
+        <!-- 入住人信息 -->
+        <div v-if="room.guest" class="room-guest">{{ room.guest }}</div>
       </div>
     </div>
 
@@ -85,7 +94,9 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/api/index.js'
 
 const rooms = ref([])
+const bookings = ref([])
 const searchKey = ref('')
+const currentFloor = ref('全部')
 const dialogVisible = ref(false)
 const isEdit = ref(false)
 const form = ref({ room_number: '', type: '大床房', price: 100 })
@@ -98,14 +109,48 @@ const bookForm = ref({ room_number: '', room_type: '', guest_name: '', phone: ''
 const nowStr = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}` }
 const statusText = (s) => ({ 0: '空闲', 1: '已预订', 2: '已入住', 3: '清洁中' }[s] || '未知')
 const statusOrder = { 0: 0, 3: 1, 1: 2, 2: 3 }
-const sortedRooms = computed(() => [...rooms.value].sort((a,b) => (statusOrder[a.status]??9) - (statusOrder[b.status]??9)))
-const filteredRooms = computed(() => { if (!searchKey.value) return sortedRooms.value; return sortedRooms.value.filter(r => String(r.room_number).includes(searchKey.value)) })
 
-const fetchRooms = async () => { rooms.value = await request.get('/rooms/allRoom') }
+// 楼层：从房间号首位提取
+const floors = computed(() => {
+  const set = new Set()
+  rooms.value.forEach(r => { const f = String(r.room_number)[0]; if (f) set.add(f + 'F') })
+  return ['全部', ...Array.from(set).sort()]
+})
+
+// 给房间绑定入住人
+const enrichedRooms = computed(() => {
+  return rooms.value.map(r => {
+    const guest = bookings.value.find(b => b.room_number === r.room_number && (b.status === 1 || b.status === 2))
+    return { ...r, guest: guest?.guest_name || '' }
+  })
+})
+
+const sortedRooms = computed(() => [...enrichedRooms.value].sort((a,b) => (statusOrder[a.status]??9) - (statusOrder[b.status]??9)))
+
+const filteredRooms = computed(() => {
+  let list = sortedRooms.value
+  if (currentFloor.value !== '全部') {
+    const floorNum = currentFloor.value.replace('F', '')
+    list = list.filter(r => String(r.room_number).startsWith(floorNum))
+  }
+  if (searchKey.value) list = list.filter(r => String(r.room_number).includes(searchKey.value))
+  return list
+})
+
+const fetchRooms = async () => {
+  rooms.value = await request.get('/rooms/allRoom')
+  // 获取活跃订单关联客人
+  try {
+    const res = await request.get('/bookings/search', { params: { status: 1 } })
+    const res2 = await request.get('/bookings/search', { params: { status: 2 } })
+    bookings.value = [...(res || []), ...(res2 || [])]
+  } catch {}
+}
 const openAddDialog = () => { isEdit.value=false; form.value={room_number:'',type:'大床房',price:100}; dialogVisible.value=true }
 const openRoomDetail = (room) => { selectedRoom.value=room; detailVisible.value=true }
 const editFromDetail = () => { if (!selectedRoom.value) return; form.value={...selectedRoom.value}; isEdit.value=true; detailVisible.value=false; dialogVisible.value=true }
 const quickBook = () => { const r=selectedRoom.value; if(!r) return; bookForm.value={room_number:r.room_number,room_type:r.type,guest_name:'',phone:'',check_in:''}; bookVisible.value=true; detailVisible.value=false }
+const quickBookFromCard = (room) => { bookForm.value={room_number:room.room_number,room_type:room.type,guest_name:'',phone:'',check_in:''}; bookVisible.value=true }
 
 const handleBook = async () => {
   if (!bookForm.value.guest_name) { ElMessage.warning('请填写客人姓名'); return }
@@ -154,7 +199,8 @@ onMounted(fetchRooms)
   background: var(--bg-card);
   box-shadow: var(--shadow-card);
   border-radius: var(--radius);
-  padding: 18px 14px;
+  padding: 18px 14px 24px;
+  position: relative;
   text-align: center;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
@@ -205,4 +251,42 @@ onMounted(fetchRooms)
 .detail-row:last-child { border-bottom: none; }
 .detail-row span:first-child { color: var(--text-muted); }
 .detail-row span:last-child { color: var(--text-primary); font-weight: 500; }
+
+/* 楼层筛选标签 */
+.floor-tag {
+  font-size: 13px; padding: 2px 10px; border-radius: 6px;
+  cursor: pointer; color: var(--text-secondary);
+  transition: var(--transition);
+  letter-spacing: 0.06em;
+}
+.floor-tag:hover { color: var(--gold); background: rgba(184,151,82,0.06); }
+.floor-tag.active { color: var(--gold); background: rgba(184,151,82,0.1); font-weight: 500; }
+
+/* 悬停快捷操作 */
+.room-hover-actions {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.room-card:hover .room-hover-actions { opacity: 1; }
+.ha-btn {
+  font-size: 11px; padding: 2px 10px; border-radius: 6px;
+  cursor: pointer; color: var(--text-muted);
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--border-light);
+  transition: var(--transition);
+}
+.ha-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* 入住人信息 */
+.room-guest {
+  font-size: 11px; color: var(--text-muted);
+  margin-top: 6px; letter-spacing: 0.06em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
 </style>

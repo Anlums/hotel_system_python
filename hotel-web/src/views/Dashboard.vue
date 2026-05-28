@@ -5,7 +5,7 @@
       <span style="font-size:12px;color:var(--text-muted);letter-spacing:0.06em">{{ currentTime }}</span>
     </div>
 
-    <el-row :gutter="20" style="margin-bottom:24px">
+    <el-row :gutter="20" style="margin-bottom:24px" class="stagger-enter">
       <el-col :span="6" v-for="item in kpiData" :key="item.label">
         <div class="kpi-card" :class="item.cls">
           <div class="kpi-icon">{{ item.icon }}</div>
@@ -57,21 +57,42 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import * as echarts from 'echarts'
 import request from '@/api/index.js'
 
 const stats = ref({ available: 0, booked: 0, occupied: 0, cleaning: 0 })
 const paymentStats = ref({ total_deposit: 0, total_payment: 0, net_income: 0 })
+const displayStats = ref({ available: 0, booked: 0, occupied: 0, cleaning: 0 })
 const pieChart = ref(null); const lineChart = ref(null)
 let pieInstance = null; let lineInstance = null
 const currentTime = ref('')
 
+// 数字递增动画
+const animateValue = (target, key) => {
+  const start = 0
+  const end = target
+  const duration = 800
+  const startTime = performance.now()
+  const step = (now) => {
+    const elapsed = now - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    // ease-out 缓动
+    displayStats.value[key] = Math.round(start + (end - start) * (1 - Math.pow(1 - progress, 3)))
+    if (progress < 1) requestAnimationFrame(step)
+  }
+  requestAnimationFrame(step)
+}
+
+watch(() => ({ ...stats.value }), (val) => {
+  Object.keys(val).forEach(k => animateValue(val[k], k))
+}, { deep: true })
+
 const kpiData = computed(() => [
-  { icon: '✦', value: stats.value.available, label: '空闲客房', cls: 'kpi-available' },
-  { icon: '◆', value: stats.value.booked, label: '已预订', cls: 'kpi-booked' },
-  { icon: '⬥', value: stats.value.occupied, label: '已入住', cls: 'kpi-occupied' },
-  { icon: '◇', value: stats.value.cleaning || 0, label: '清洁中', cls: 'kpi-cleaning' },
+  { icon: '✦', value: displayStats.value.available, label: '空闲客房', cls: 'kpi-available' },
+  { icon: '◆', value: displayStats.value.booked, label: '已预订', cls: 'kpi-booked' },
+  { icon: '⬥', value: displayStats.value.occupied, label: '已入住', cls: 'kpi-occupied' },
+  { icon: '◇', value: displayStats.value.cleaning || 0, label: '清洁中', cls: 'kpi-cleaning' },
 ])
 const todayTodos = computed(() => { const t=[]; if(stats.value.cleaning) t.push({text:`${stats.value.cleaning} 间客房待清洁`,color:'#A67C43'}); return t })
 const financeItems = computed(() => [
