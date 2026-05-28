@@ -37,7 +37,6 @@ AGENT_SYSTEM_PROMPT = """你叫"小天"，是天玺尊邸酒店的 AI 智能管�
 - 如果所有房间已满，告知客户并建议改期
 - 下单前必须与客户逐项确认订单信息"""
 
-
 RECOMMEND_SYSTEM_PROMPT = """你是天玺尊邸酒店的房间推荐专家。你的任务是根据客人需求，使用工具查询当前可用房间，筛选并推荐最合适的方案。
 
 ## 可用房型容量
@@ -57,7 +56,6 @@ RECOMMEND_SYSTEM_PROMPT = """你是天玺尊邸酒店的房间推荐专家。你
 
 {"analysis": "简短分析总结（30字以内）", "suggestions": [{"room_number": 房间号, "room_type": "房型", "price": 价格(数字), "score": 推荐分1-100(数字), "reason": "推荐理由（20字以内）"}]}"""
 
-
 def create_hotel_agent(tools: list[BaseTool], system_prompt: str = None):
     """创建酒店 AI 智能管家 Agent（LangGraph 模式）
     Args:
@@ -68,7 +66,7 @@ def create_hotel_agent(tools: list[BaseTool], system_prompt: str = None):
     # 注意：必须用 replace/removesuffix，不能用 rstrip（rstrip 会按字符集剥离，吃掉 .com）
     base_url = settings.DEEPSEEK_BASE_URL.replace("/chat/completions", "").rstrip("/")
 
-    llm = ChatOpenAI(
+    llm = ChatOpenAI(d
         model=settings.DEEPSEEK_MODEL,
         api_key=settings.DEEPSEEK_API_KEY,
         base_url=base_url,

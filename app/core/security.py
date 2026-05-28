@@ -1,23 +1,27 @@
 from datetime import datetime, timedelta
-from jose import jwt, JWTError
-from passlib.context import CryptContext
+import bcrypt
+import jwt
 
 # 生产环境请修改此密钥！
 SECRET_KEY = "hotel-system-secret-key-change-in-production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_DAYS = 7
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """验证明文密码 vs 哈希密码"""
-    return pwd_context.verify(plain_password, hashed_password)
+    """验证明文密码 vs 哈希密码（纯 bcrypt）"""
+    return bcrypt.checkpw(
+        plain_password.encode("utf-8"),
+        hashed_password.encode("utf-8"),
+    )
 
 
 def get_password_hash(password: str) -> str:
     """对密码进行 bcrypt 哈希"""
-    return pwd_context.hash(password)
+    return bcrypt.hashpw(
+        password.encode("utf-8"),
+        bcrypt.gensalt(),
+    ).decode("utf-8")
 
 
 def create_access_token(data: dict) -> str:

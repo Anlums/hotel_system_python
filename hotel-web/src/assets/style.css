@@ -1,0 +1,141 @@
+/* ==========================================
+   天玺尊邸酒店管理系统 - 全局样式
+   暗金奢华风格
+   ========================================== */
+
+:root {
+  --primary: #1a2332;
+  --primary-light: #243044;
+  --accent: #c8a96e;
+  --accent-light: #dfc08a;
+  --bg-main: #f0ebe3;
+  --bg-card: #ffffff;
+  --text-primary: #1a2332;
+  --text-secondary: #7a7a7a;
+  --text-muted: #b0b0b0;
+  --success: #67c23a;
+  --warning: #e6a23c;
+  --primary-btn: #409eff;
+  --danger: #f56c6c;
+  --border-color: #ebe8e3;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+/* 页面标题 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  padding-left: 14px;
+}
+.page-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+/* KPI 卡片 */
+.kpi-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.kpi-card .kpi-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+.kpi-card .kpi-value {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.kpi-card .kpi-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.kpi-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.kpi-card.kpi-available::after { background: var(--success); }
+.kpi-card.kpi-booked::after { background: var(--warning); }
+.kpi-card.kpi-occupied::after { background: var(--primary-btn); }
+.kpi-card.kpi-cleaning::after { background: var(--danger); }
+
+/* 内容卡片 */
+.content-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+.content-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* 数字滚动动画 */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.count-animate {
+  animation: countUp 0.6s ease-out;
+}
+
+/* 页面进入动画 */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.page-enter {
+  animation: fadeInUp 0.4s ease-out;
+}

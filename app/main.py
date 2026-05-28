@@ -7,7 +7,7 @@ from app.api.v1 import rooms, bookings, ai, cleaning, room_service, pricing, ass
 from app.db.database import engine, Base, async_session
 from app.model.user import User
 from app.core.security import get_password_hash, decode_token
-from jose import JWTError
+import jwt
 
 
 # 放行的路径前缀（不需要登录）
@@ -31,7 +31,7 @@ async def lifespan(app: FastAPI):
         if not result.scalar_one_or_none():
             db.add(User(username="admin", password_hash=get_password_hash("admin123"), role="admin"))
             await db.commit()
-            print("✅ 默认管理员已创建: admin / admin123")
+            print("默认管理员已创建: admin / admin123")
     yield
 
 
@@ -68,7 +68,7 @@ async def auth_middleware(request: Request, call_next):
         try:
             payload = decode_token(auth_header.split(" ")[1])
             request.state.user = payload
-        except JWTError:
+        except jwt.PyJWTError:
             return JSONResponse(status_code=401, content={"code": 401, "msg": "登录已过期，请重新登录"})
 
     return await call_next(request)
