@@ -19,7 +19,7 @@
     </el-card>
 
     <!-- 会员列表 -->
-    <el-table :data="members" border stripe style="width: 100%" v-loading="loading">
+    <el-table :data="members" style="width: 100%" v-loading="loading">
       <el-table-column prop="id" label="ID" width="60" />
       <el-table-column prop="name" label="姓名" width="100" />
       <el-table-column prop="phone" label="手机号" width="130" />

@@ -46,7 +46,7 @@
     </el-card>
 
     <!-- 支付记录表 -->
-    <el-table :data="payments" border stripe style="width: 100%" v-loading="loading">
+    <el-table :data="payments" style="width: 100%" v-loading="loading">
       <el-table-column prop="id" label="ID" width="60" />
       <el-table-column prop="booking_id" label="订单ID" width="80" />
       <el-table-column label="类型" width="100">

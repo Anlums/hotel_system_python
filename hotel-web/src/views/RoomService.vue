@@ -64,8 +64,8 @@
       <!-- ====== 订单管理 ====== -->
       <el-tab-pane label="📦 订单管理" name="orders">
         <!-- 下单区 -->
-        <el-card class="order-card" shadow="hover">
-          <template #header>🆕 新建服务订单</template>
+        <div class="content-card order-card" style="margin-bottom: 20px; padding: 16px 20px">
+          <h4 style="margin-top: 0; margin-bottom: 16px">🆕 新建服务订单</h4>
           <el-form :model="orderForm" label-width="100px" inline>
             <el-form-item label="房间号">
               <el-input-number v-model="orderForm.room_number" :min="100" :max="999" />
@@ -108,7 +108,7 @@
               提交订单
             </el-button>
           </div>
-        </el-card>
+        </div>
 
         <!-- 待处理订单 -->
         <h3 style="margin: 20px 0 12px">待处理订单</h3>

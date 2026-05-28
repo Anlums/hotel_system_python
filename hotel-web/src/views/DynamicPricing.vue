@@ -1,21 +1,21 @@
 <template>
   <div>
     <div class="page-header">
-      <h2 class="page-title">🤖 AI 动态定价</h2>
+      <h1 class="page-title">🤖 AI 动态定价</h1>
       <el-button type="primary" :loading="loading" @click="handleAnalyze">
         <el-icon><Cpu /></el-icon> AI 智能分析
       </el-button>
     </div>
 
     <!-- AI 分析结论 -->
-    <el-card v-if="analysis" class="analysis-card" shadow="hover">
-      <template #header>📈 AI 收益分析</template>
+    <div v-if="analysis" class="content-card analysis-card" style="margin-bottom: 20px; padding: 16px 20px">
+      <h4 style="margin-top: 0; margin-bottom: 16px">📈 AI 收益分析</h4>
       <p style="font-size: 15px; margin: 0">{{ analysis }}</p>
-    </el-card>
+    </div>
 
     <!-- 价格对比表 -->
     <h3 v-if="suggestions.length" style="margin: 20px 0 12px">💡 AI 建议价格</h3>
-    <el-table :data="suggestions" border stripe style="width: 100%" v-if="suggestions.length">
+    <el-table :data="suggestions" style="width: 100%" v-if="suggestions.length">
       <el-table-column prop="room_type" label="房型" width="120" />
       <el-table-column label="房间数" width="80">
         <template #default="{ row }">{{ row.count }}间</template>
@@ -61,7 +61,7 @@
 
     <!-- 调价历史 -->
     <h3 style="margin: 24px 0 12px">📜 调价历史</h3>
-    <el-table :data="history" border stripe style="width: 100%">
+    <el-table :data="history" style="width: 100%">
       <el-table-column prop="room_type" label="房型" width="120" />
       <el-table-column label="原价" width="100">
         <template #default="{ row }">¥{{ row.old_price }}</template>
