@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-header">
-      <h2 class="page-title">🛎️ 客房服务</h2>
+      <h1 class="page-title">🛎️ 客房服务</h1>
     </div>
 
     <el-tabs v-model="activeTab">
@@ -11,7 +11,7 @@
           <el-button type="primary" @click="showAddDialog = true">+ 新增项目</el-button>
         </div>
 
-        <el-table :data="menuItems" border stripe style="width: 100%">
+        <el-table :data="menuItems" style="width: 100%">
           <el-table-column prop="id" label="ID" width="60" />
           <el-table-column prop="name" label="项目名称" width="160" />
           <el-table-column prop="category" label="分类" width="100">
@@ -75,7 +75,7 @@
             </el-form-item>
           </el-form>
 
-          <el-table :data="cart" border stripe style="width: 100%; margin-bottom: 12px">
+          <el-table :data="cart" style="width: 100%; margin-bottom: 12px">
             <el-table-column prop="name" label="项目" width="160" />
             <el-table-column prop="price" label="单价" width="80">
               <template #default="{ row }">¥{{ row.price }}</template>
@@ -112,7 +112,7 @@
 
         <!-- 待处理订单 -->
         <h3 style="margin: 20px 0 12px">待处理订单</h3>
-        <el-table :data="pendingOrders" border stripe style="width: 100%">
+        <el-table :data="pendingOrders" style="width: 100%">
           <el-table-column prop="id" label="单号" width="70" />
           <el-table-column prop="room_number" label="房间" width="70" />
           <el-table-column label="项目" min-width="200">
@@ -149,7 +149,7 @@
 
         <!-- 历史记录 -->
         <h3 style="margin: 24px 0 12px">历史记录</h3>
-        <el-table :data="allOrders" border stripe style="width: 100%">
+        <el-table :data="allOrders" style="width: 100%">
           <el-table-column prop="id" label="单号" width="70" />
           <el-table-column prop="room_number" label="房间" width="70" />
           <el-table-column label="项目" min-width="200">

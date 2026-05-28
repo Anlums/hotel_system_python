@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="page-header">
-      <h2 class="page-title">🧹 保洁工单管理</h2>
+      <h1 class="page-title">🧹 保洁工单管理</h1>
     </div>
 
-    <el-card class="tip-card" shadow="hover">
+    <div class="content-card tip-card" style="margin-bottom: 20px; padding: 16px 20px">
       <p>💡 退房时会自动生成保洁工单，房间状态变为「清洁中」。保洁完成后点击「完成」，房间恢复「空闲」。</p>
-    </el-card>
+    </div>
 
     <!-- 待处理工单 -->
     <h3 style="margin: 16px 0 12px">待处理工单</h3>
-    <el-table :data="pendingTasks" border stripe style="width: 100%">
+    <el-table :data="pendingTasks" style="width: 100%">
       <el-table-column prop="id" label="工单号" width="80" />
       <el-table-column prop="room_number" label="房间号" width="100" />
       <el-table-column prop="status" label="状态" width="100">
@@ -47,7 +47,7 @@
 
     <!-- 已完成工单 -->
     <h3 style="margin: 24px 0 12px">历史记录</h3>
-    <el-table :data="allTasks" border stripe style="width: 100%">
+    <el-table :data="allTasks" style="width: 100%">
       <el-table-column prop="id" label="工单号" width="80" />
       <el-table-column prop="room_number" label="房间号" width="80" />
       <el-table-column prop="assignee" label="保洁员" width="100" />
