@@ -1,99 +1,159 @@
 /* ==========================================
-   天玺尊邸酒店管理系统 - 全局样式
-   暗金奢华风格
+   天玺尊邸 - 皇家暗金奢华主题
+   深夜走进迪拜七星级酒店大堂的厚重与尊贵
    ========================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
+
 :root {
-  --primary: #1a2332;
-  --primary-light: #243044;
-  --accent: #c8a96e;
-  --accent-light: #dfc08a;
-  --bg-main: #f0ebe3;
-  --bg-card: #ffffff;
-  --text-primary: #1a2332;
-  --text-secondary: #7a7a7a;
-  --text-muted: #b0b0b0;
-  --success: #67c23a;
-  --warning: #e6a23c;
-  --primary-btn: #409eff;
-  --danger: #f56c6c;
-  --border-color: #ebe8e3;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  /* 深邃曜石黑背景 */
+  --bg-deep: #0B0C10;
+  --bg-elevated: #12131C;
+  --bg-card: #1A1B26;
+  --bg-card-hover: #22233A;
+
+  /* 皇家金 */
+  --gold: #D4AF37;
+  --gold-light: #F3E5AB;
+  --gold-glow: rgba(212, 175, 55, 0.15);
+
+  /* 辅助色 - 低饱和度高级感 */
+  --emerald: #2E7D32;
+  --sapphire: #1565C0;
+  --burgundy: #8B1A1A;
+
+  /* 文字 */
+  --text-primary: #E8E6E3;
+  --text-secondary: #8B8982;
+  --text-muted: #5A5955;
+
+  /* 边框 */
+  --border-gold: rgba(212, 175, 55, 0.15);
+  --border-subtle: rgba(255, 255, 255, 0.06);
+
+  /* 阴影 */
+  --shadow-glow: 0 0 20px rgba(212, 175, 55, 0.2);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+
+  /* 尺寸 */
   --radius: 12px;
   --radius-sm: 8px;
-  --transition: all 0.3s ease;
+  --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body, #app {
   height: 100%;
   width: 100%;
-  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  background: var(--bg-main);
+  font-family: 'Cinzel', 'STSong', 'SimSun', serif;
+  background: var(--bg-deep);
   color: var(--text-primary);
+  letter-spacing: 0.08em;
 }
 
-/* 页面标题 */
+/* 自定义滚动条 - 金色极细 */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+
+/* ========== 玻璃拟态卡片 ========== */
+.glass-card {
+  background: rgba(26, 27, 38, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+}
+.glass-card:hover {
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ========== 页面标题 ========== */
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 .page-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--gold);
+  letter-spacing: 0.15em;
   position: relative;
-  padding-left: 14px;
+  padding-left: 16px;
+  text-transform: uppercase;
 }
 .page-title::before {
   content: '';
   position: absolute;
   left: 0;
-  top: 4px;
-  bottom: 4px;
-  width: 3px;
-  background: var(--accent);
-  border-radius: 2px;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold), var(--gold-light));
+  border-radius: 1px;
 }
 
-/* KPI 卡片 */
+/* ========== KPI 流光卡片 ========== */
 .kpi-card {
-  background: var(--bg-card);
+  background: rgba(26, 27, 38, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-gold);
   border-radius: var(--radius);
-  padding: 20px 24px;
-  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
   transition: var(--transition);
-  border: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
+  cursor: default;
 }
 .kpi-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: var(--shadow-glow);
 }
-.kpi-card .kpi-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
-  opacity: 0.8;
+/* 流光动画 */
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(212, 175, 55, 0.03) 50%,
+    transparent 70%
+  );
+  transition: transform 0.8s;
 }
+.kpi-card:hover::before {
+  transform: translateX(100%) translateY(100%);
+}
+.kpi-card .kpi-icon { font-size: 28px; margin-bottom: 10px; }
 .kpi-card .kpi-value {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
   line-height: 1.2;
 }
 .kpi-card .kpi-label {
-  font-size: 14px;
+  font-size: 12px;
   color: var(--text-secondary);
-  margin-top: 4px;
+  margin-top: 6px;
+  letter-spacing: 0.12em;
 }
 .kpi-card::after {
   content: '';
@@ -101,41 +161,114 @@ html, body, #app {
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 2px;
   border-radius: var(--radius) var(--radius) 0 0;
 }
-.kpi-card.kpi-available::after { background: var(--success); }
-.kpi-card.kpi-booked::after { background: var(--warning); }
-.kpi-card.kpi-occupied::after { background: var(--primary-btn); }
-.kpi-card.kpi-cleaning::after { background: var(--danger); }
+.kpi-card.kpi-available::after { background: linear-gradient(90deg, var(--emerald), transparent); }
+.kpi-card.kpi-booked::after { background: linear-gradient(90deg, var(--sapphire), transparent); }
+.kpi-card.kpi-occupied::after { background: linear-gradient(90deg, var(--gold), transparent); }
+.kpi-card.kpi-cleaning::after { background: linear-gradient(90deg, var(--burgundy), transparent); }
 
-/* 内容卡片 */
+/* ========== 内容卡片 ========== */
 .content-card {
-  background: var(--bg-card);
+  background: rgba(26, 27, 38, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-gold);
   border-radius: var(--radius);
   padding: 24px;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
   transition: var(--transition);
 }
 .content-card:hover {
-  box-shadow: var(--shadow-md);
+  border-color: rgba(212, 175, 55, 0.25);
 }
 
-/* 数字滚动动画 */
+/* ========== Element Plus 覆盖 ========== */
+/* Dialog 弹窗 */
+.el-dialog {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border-gold) !important;
+  border-radius: var(--radius) !important;
+}
+.el-dialog__title { color: var(--gold) !important; letter-spacing: 0.1em; }
+.el-dialog__body { color: var(--text-primary) !important; }
+.el-dialog__headerbtn .el-icon { color: var(--text-secondary) !important; }
+
+/* 输入框 */
+.el-input__wrapper {
+  background: rgba(255,255,255,0.05) !important;
+  border: 1px solid var(--border-subtle) !important;
+  box-shadow: none !important;
+}
+.el-input__wrapper.is-focus {
+  border-color: var(--gold) !important;
+}
+.el-input__inner {
+  color: var(--text-primary) !important;
+}
+
+/* 按钮 */
+.el-button--primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light)) !important;
+  border: none !important;
+  color: #0B0C10 !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em;
+}
+.el-button--primary:hover {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold)) !important;
+  box-shadow: var(--shadow-glow);
+}
+.el-button--default {
+  background: transparent !important;
+  border: 1px solid var(--border-gold) !important;
+  color: var(--text-secondary) !important;
+}
+.el-button--default:hover {
+  border-color: var(--gold) !important;
+  color: var(--gold) !important;
+}
+
+/* Tag 标签 */
+.el-tag--success { background: rgba(46, 125, 50, 0.2) !important; border-color: var(--emerald) !important; color: #4CAF50 !important; }
+.el-tag--warning { background: rgba(21, 101, 192, 0.2) !important; border-color: var(--sapphire) !important; color: #42A5F5 !important; }
+.el-tag--primary { background: rgba(212, 175, 55, 0.2) !important; border-color: var(--gold) !important; color: var(--gold-light) !important; }
+.el-tag--danger { background: rgba(139, 26, 26, 0.2) !important; border-color: var(--burgundy) !important; color: #EF5350 !important; }
+
+/* 表格 */
+.el-table {
+  --el-table-bg-color: transparent !important;
+  --el-table-tr-bg-color: transparent !important;
+  --el-table-header-bg-color: rgba(255,255,255,0.03) !important;
+  --el-table-row-hover-bg-color: rgba(212, 175, 55, 0.06) !important;
+  --el-table-border-color: var(--border-subtle) !important;
+  --el-table-text-color: var(--text-primary) !important;
+  --el-table-header-text-color: var(--gold) !important;
+}
+.el-table th.el-table__cell {
+  background: rgba(255,255,255,0.03) !important;
+  color: var(--gold) !important;
+  border-bottom: 1px solid var(--border-gold) !important;
+  letter-spacing: 0.1em;
+}
+
+/* ========== 动画 ========== */
 @keyframes countUp {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.count-animate {
-  animation: countUp 0.6s ease-out;
-}
+.count-animate { animation: countUp 0.6s ease-out; }
 
-/* 页面进入动画 */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.page-enter {
-  animation: fadeInUp 0.4s ease-out;
+.page-enter { animation: fadeInUp 0.4s ease-out; }
+
+/* 呼吸灯动画 */
+@keyframes breathe {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
+.breathe { animation: breathe 2s ease-in-out infinite; }

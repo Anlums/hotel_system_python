@@ -73,8 +73,12 @@ const handleLogin = async () => {
 .login-card {
   width: 400px;
   padding: 40px;
-  background: transparent;
-  border-radius: 12px;
+  background: rgba(11, 12, 16, 0.5);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 .login-header {
   text-align: center;
@@ -87,13 +91,15 @@ const handleLogin = async () => {
 .login-header h2 {
   margin: 0 0 8px;
   font-size: 22px;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
 }
 .login-subtitle {
   margin: 0;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
 }
 
 /* 输入框 50% 透明 */
