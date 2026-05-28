@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="page-header">
-      <h2 class="page-title">👑 会员管理</h2>
+      <h1 class="page-title">👑 会员管理</h1>
       <el-button type="primary" @click="openAddDialog">+ 新增会员</el-button>
     </div>
 
     <!-- 搜索 -->
-    <el-card class="search-card" shadow="hover">
+    <div class="content-card search-card" style="margin-bottom: 20px; padding: 16px 20px">
       <el-form :model="searchForm" inline>
         <el-form-item label="搜索">
           <el-input v-model="searchForm.keyword" placeholder="姓名 / 手机号" clearable @keyup.enter="handleSearch" />
@@ -16,7 +16,7 @@
           <el-button @click="resetSearch">重置</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
 
     <!-- 会员列表 -->
     <el-table :data="members" style="width: 100%" v-loading="loading">

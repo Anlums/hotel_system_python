@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-header">
-      <h2 class="page-title">💰 支付结算</h2>
+      <h1 class="page-title">💰 支付结算</h1>
     </div>
 
     <!-- 统计卡片 -->
@@ -33,7 +33,7 @@
     </el-row>
 
     <!-- 搜索 -->
-    <el-card class="search-card" shadow="hover">
+    <div class="content-card search-card" style="margin-bottom: 20px; padding: 16px 20px">
       <el-form :inline="true">
         <el-form-item label="订单ID">
           <el-input-number v-model="searchBookingId" :min="0" placeholder="按订单号筛选" clearable style="width: 160px" />
@@ -43,7 +43,7 @@
           <el-button @click="searchBookingId = null; fetchPayments()">全部</el-button>
         </el-form-item>
       </el-form>
-    </el-card>
+    </div>
 
     <!-- 支付记录表 -->
     <el-table :data="payments" style="width: 100%" v-loading="loading">

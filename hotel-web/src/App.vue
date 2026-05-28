@@ -55,6 +55,7 @@
         <div class="top-right">
           <span class="top-time">{{ currentTime }}</span>
           <span class="top-user">{{ username }}</span>
+          <span class="top-logout" @click="handleLogout">退出</span>
         </div>
       </header>
       <div class="content-scroll">
@@ -184,7 +185,8 @@ const handleLogout = async () => {
 .brand-sub { font-size: 13px; color: var(--text-secondary); }
 .top-right { display: flex; align-items: center; gap: 16px; }
 .top-time { font-size: 12px; color: var(--text-muted); }
-.top-user { font-size: 13px; color: var(--text-secondary); }
+.top-logout { font-size: 13px; color: var(--text-muted); cursor: pointer; transition: var(--transition); }
+.top-logout:hover { color: var(--rose-text); }
 
 /* 内容区 */
 .content-scroll { flex: 1; overflow-y: auto; padding: 24px 28px; }
