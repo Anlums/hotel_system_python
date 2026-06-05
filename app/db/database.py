@@ -16,17 +16,29 @@ DATABASE_URL = (f"mysql+aiomysql://{settings.DB_USER}:{settings.DB_PASSWORD}"
 
 # 2. 创建异步引擎
 # echo=True 会在控制台打印 SQL 语句，方便调试（对标 MyBatis 的 StdOutImpl）
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(
+    DATABASE_URL,
+    echo=True,   # 打印SQL日志（调试用）
+    # pool_size=10,  # 连接池大小：保持10个活跃连接
+    # max_overflow=20,  # 最大溢出：峰值时可额外创建20个
+    # pool_timeout=30,  # 超时时间：等待连接最多30秒
+    # pool_recycle=3600  # 回收时间：连接1小时后自动重建（防断开）
+)
 
 # 3. 创建异步会话工厂
 # 每次调用 async_session() 得到一个数据库会话
-async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+# async_session = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+
+async_session = async_sessionmaker(
+    engine,                  # 绑定到哪个引擎（从哪个连接池取连接）
+    class_=AsyncSession,     # 生成什么类型的Session
+    expire_on_commit=False,  # 提交后不失效对象（重要！）
+    # autoflush=False,         # 不自动flush（手动控制）
+    # autocommit=False         # 不自动提交（手动控制事务）
+)
 
 # 4. ORM 基类 —— 所有 Model 都要继承它
 # 对标 MyBatis 里每个 Entity 类
-"""
-
-"""
 
 class Base(DeclarativeBase):
     pass

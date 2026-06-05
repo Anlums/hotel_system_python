@@ -64,6 +64,4 @@ class Settings(BaseSettings):
                     # "extra": "allow",  # ← 允许并保存未知字段
                     "validate_default": True,  # ← 验证默认值是否合法
                      }
-
-
 settings = Settings()

@@ -101,8 +101,8 @@ const financeItems = computed(() => [
   {label:'净收入',value:paymentStats.value.net_income},
 ])
 
-const fetchStats = async () => { const r=await request.get('/rooms/statusCount'); stats.value=r.data; nextTick(()=>initPieChart()) }
-const fetchRevenue = async () => { const r=await request.get('/bookings/revenue?days=7'); nextTick(()=>initLineChart(r.data)) }
+const fetchStats = async () => { try { const r=await request.get('/rooms/statusCount'); stats.value=r.data; nextTick(()=>initPieChart()) } catch(e) { console.warn('fetchStats:', e) } }
+const fetchRevenue = async () => { try { const r=await request.get('/bookings/revenue?days=7'); nextTick(()=>initLineChart(r.data)) } catch(e) { console.warn('fetchRevenue:', e) } }
 const fetchPaymentStats = async () => { try{const r=await request.get('/payments/stats');paymentStats.value=r.data}catch{}}
 
 const initPieChart = () => {
