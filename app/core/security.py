@@ -7,7 +7,6 @@ SECRET_KEY = "hotel-system-secret-key-change-in-production"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_DAYS = 7
 
-
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """验证明文密码 vs 哈希密码（纯 bcrypt）"""
     return bcrypt.checkpw(

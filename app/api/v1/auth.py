@@ -8,7 +8,6 @@ from app.core.security import verify_password, create_access_token
 
 router = APIRouter(prefix="/api/auth", tags=["认证"])
 
-
 class AuthLogin(BaseModel):
     username: str
     password: str
@@ -24,7 +23,11 @@ async def login(data: AuthLogin, db: AsyncSession = Depends(get_db)):
 
     if not user or not verify_password(data.password, user.password_hash):
         return {"code": 401, "msg": "用户名或密码错误"}
-
+    """
+    📋 Header = 证件类型说明
+    👤 Payload = 你的个人信息
+    🔏 Signature = 公安局的防伪印章
+    """
     token = create_access_token({"sub": user.username, "role": user.role})
     return {
         "code": 200,

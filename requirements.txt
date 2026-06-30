@@ -13,3 +13,4 @@ langchain-community>=0.3.0
 #python-jose>=3.5.0
 bcrypt>=4.0.0,<5.0.0
 pyjwt>=2.8.0  # 替代旧的 python-jose
+pyyaml>=6.0

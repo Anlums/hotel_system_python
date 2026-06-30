@@ -2,14 +2,12 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
-
 class MemberCreate(BaseModel):
     """新增会员"""
     name: str
     phone: str
     id_card: Optional[str] = None
     email: Optional[str] = None
-
 
 class MemberUpdate(BaseModel):
     """修改会员"""

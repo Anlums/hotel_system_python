@@ -5,6 +5,7 @@ from decimal import Decimal
 
 from app.crud import crud_room, crud_booking
 from app.model.booking import Booking
+from app.agent.tools_rag import create_rag_tools
 
 
 def create_hotel_tools(db: AsyncSession) -> list:
@@ -171,4 +172,5 @@ def create_hotel_tools(db: AsyncSession) -> list:
         get_room_details,
         create_booking,
         search_bookings,
+        *create_rag_tools(),  # RAG 知识库检索工具
     ]

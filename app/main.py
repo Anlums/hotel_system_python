@@ -1,3 +1,4 @@
+import asyncio
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -8,7 +9,6 @@ from app.db.database import engine, Base, async_session
 from app.model.user import User
 from app.core.security import get_password_hash, decode_token
 import jwt
-
 
 # 放行的路径前缀（不需要登录）
 PUBLIC_PATHS = (
@@ -32,6 +32,17 @@ async def lifespan(app: FastAPI):
             db.add(User(username="admin", password_hash=get_password_hash("admin123"), role="admin"))
             await db.commit()
             print("默认管理员已创建: admin / admin123")
+
+    # 初始化 RAG 知识库索引
+    try:
+        from app.RAG.loader import load_knowledge_base
+        from app.RAG.retriever import retriever
+        docs = await load_knowledge_base()
+        await retriever.build_index(docs)
+        print(f"RAG 知识库已加载: {len(docs)} 条知识")
+    except Exception as e:
+        print(f"RAG 知识库加载失败: {e}")
+
     yield
 
 
