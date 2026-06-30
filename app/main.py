@@ -35,11 +35,11 @@ async def lifespan(app: FastAPI):
 
     # 初始化 RAG 知识库索引
     try:
-        from app.RAG.loader import load_knowledge_base
-        from app.RAG.retriever import retriever
-        docs = await load_knowledge_base()
-        await retriever.build_index(docs)
-        print(f"RAG 知识库已加载: {len(docs)} 条知识")
+        from app.RAG.loader import load_all
+        from app.RAG import retriever
+        docs = await load_all()
+        count = await retriever.build_index(docs)
+        print(f"RAG 知识库已加载: {count} 个文档块")
     except Exception as e:
         print(f"RAG 知识库加载失败: {e}")
 

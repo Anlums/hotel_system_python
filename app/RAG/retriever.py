@@ -1,76 +1,66 @@
-"""检索器：TF-IDF 向量检索知识库，返回最相关的文档片段"""
+"""向量检索器：使用 ChromaDB + HuggingFace Embeddings"""
 
-from typing import Optional
-from .embedding import TfidfVectorizer, cosine_similarity
+from pathlib import Path
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
 
+# 持久化目录
+CHROMA_DIR = Path(__file__).parent / "chroma_db"
 
-class KnowledgeRetriever:
-    """基于 TF-IDF 的知识检索器（不依赖外部 API，纯 Python 实现）"""
+# Embedding 模型：BAAI/bge-small-zh-v1.5（免费中文模型，512维）
+EMBEDDING_MODEL = "BAAI/bge-small-zh-v1.5"
 
-    def __init__(self):
-        self.docs: list[dict] = []          # [{id, category, content, keywords}]
-        self.vectors: list[list[float]] = []  # 对应的 TF-IDF 向量
-        self.vectorizer = TfidfVectorizer()
-        self._ready = False
-
-    @property
-    def is_ready(self) -> bool:
-        return self._ready
-
-    async def build_index(self, docs: list[dict]):
-        """构建 TF-IDF 向量索引（启动时调用一次）"""
-        self.docs = docs
-        # 把 keywords 也拼到 content 里一起索引，提高关键词匹配率
-        texts = []
-        for d in docs:
-            enriched = d["content"] + " " + " ".join(d.get("keywords", []))
-            texts.append(enriched)
-        self.vectorizer.fit(texts)
-        self.vectors = [self.vectorizer.transform(t) for t in texts]
-        self._ready = True
-
-    async def retrieve(
-        self,
-        query: str,
-        top_k: int = 3,
-        category: Optional[str] = None,
-        min_score: float = 0.1,
-    ) -> list[dict]:
-        """检索最相关的知识片段
-
-        Args:
-            query: 用户问题
-            top_k: 返回条数
-            category: 按类型过滤（policy/service/faq/pricing 等）
-            min_score: 最低相似度阈值
-
-        Returns:
-            [{content, score, category}] 按相似度降序
-        """
-        if not self._ready:
-            return [{"content": "知识库正在加载中，请稍后再试。", "score": 0, "category": "system"}]
-
-        query_vec = self.vectorizer.transform(query)
-
-        results = []
-        for idx, doc_vec in enumerate(self.vectors):
-            score = cosine_similarity(query_vec, doc_vec)
-            doc = self.docs[idx]
-
-            if category and doc["category"] != category:
-                continue
-
-            results.append({
-                "content": doc["content"],
-                "score": round(score, 4),
-                "category": doc["category"],
-            })
-
-        results.sort(key=lambda x: x["score"], reverse=True)
-        results = [r for r in results if r["score"] >= min_score]
-
-        return results[:top_k]
+_embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
+_vectorstore = None
+_ready = False
 
 
-# 全局单例
-retriever = KnowledgeRetriever()
+def get_vectorstore() -> Chroma:
+    global _vectorstore, _ready
+    if _vectorstore is None:
+        _vectorstore = Chroma(
+            embedding_function=_embeddings,
+            persist_directory=str(CHROMA_DIR),
+        )
+        _ready = True
+    return _vectorstore
+
+
+async def build_index(docs: list):
+    """构建/重建索引"""
+    from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=300,
+        chunk_overlap=50,
+        separators=["\n\n", "\n", "。", "，", " ", ""],
+    )
+    chunks = splitter.split_documents(docs)
+
+    global _vectorstore, _ready
+    _vectorstore = Chroma.from_documents(
+        documents=chunks,
+        embedding=_embeddings,
+        persist_directory=str(CHROMA_DIR),
+    )
+    _ready = True
+    return len(chunks)
+
+
+async def retrieve(query: str, top_k: int = 3) -> list[dict]:
+    """检索最相关的知识片段"""
+    if not _ready:
+        return [{"content": "知识库加载中，请稍后再试。", "score": 0, "category": "system"}]
+
+    vs = get_vectorstore()
+    results = vs.similarity_search_with_relevance_scores(query, k=top_k)
+
+    output = []
+    for doc, score in results:
+        output.append({
+            "content": doc.page_content,
+            "score": round(float(score), 4),
+            "category": doc.metadata.get("category", "general"),
+            "source": doc.metadata.get("source", "?"),
+        })
+    return output
